@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.loteria20.app.ListaBilletes" >
+
+
+    <item android:id="@+id/action_capture"
+        android:icon="@drawable/ic_action_camera"
+        android:title="@string/action_capture"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_agregar"
+        android:title="@string/action_agregar"
+        android:orderInCategory="1"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_eliminar"
+        android:title="@string/action_eliminar"
+        android:orderInCategory="2"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_renombrar"
+        android:title="@string/action_renombrar"
+        android:orderInCategory="3"
+        app:showAsAction="never" />
+</menu>

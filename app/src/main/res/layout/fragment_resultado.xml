@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:overScrollMode="always">
+
+        <LinearLayout
+            android:id="@+id/lista_resultados"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/resultado_txt"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:id="@+id/anuncio"
+                android:text="@string/anuncio"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/resultado"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/numeros"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/kino"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="@string/resultadosKino"/>
+
+                    <RelativeLayout
+                        android:id="@+id/numerosKino"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/reKino"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="@string/resultadosReKino"/>
+
+                    <RelativeLayout
+                        android:id="@+id/numerosReKino"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/chanchito"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="@string/resultadosChanchito"/>
+
+                    <RelativeLayout
+                        android:id="@+id/numerosChanchito"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
