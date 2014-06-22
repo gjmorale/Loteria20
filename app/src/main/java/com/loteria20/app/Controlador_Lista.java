@@ -21,6 +21,10 @@ public class Controlador_Lista
     public static String getEOF()
     { return EOF; }
 
+    private static String separador2 = "-";
+    public static String getSeparador2()
+    { return separador2; }
+
     //Inicializa el sistema de archivos. Si no hay archivo, retorna false
     public static boolean start()
     {
@@ -239,6 +243,21 @@ public class Controlador_Lista
         }
         catch (FileNotFoundException e) { }
         catch (IOException e) { }
+    }
+
+
+    //buscamos en la BD la linea de informacion correspondiente al boleto, y le setiamos el resultado
+    //recibimos el nombre del billete (suponemos unico), y un elemento Boleto, al cual le podremos
+    //pedir los resultados
+    public static void setResultado(String nombre, Boleto boleto)
+    {
+        //obtenemos la linea de texto en el archivo local de la BD
+
+        //modificamos la linea, ingresandole el resultado obtenido del boleto
+
+        //volvemos a guardar la linea de texto en la BD
+
+        //PENDIENTE, VOY A TRATAR DE MOVERME A UNA DB DE VERDAD.
     }
 
 }
