@@ -16,6 +16,8 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="#ffffffff"
+                android:textStyle="bold"
                 android:id="@+id/resultado_txt"
                 android:gravity="center"
                 android:layout_width="match_parent"
@@ -23,6 +25,8 @@
 
 
             <TextView
+                android:textColor="#ffffffff"
+                android:textStyle="bold"
                 android:id="@+id/anuncio"
                 android:text="@string/anuncio"
                 android:gravity="center"
@@ -37,11 +41,14 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:layout_marginTop="5dp"
                     android:id="@+id/numeros"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></RelativeLayout>
+                    android:background="@drawable/verde"
+                    android:layout_height="36dp"></RelativeLayout>
 
                 <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:id="@+id/kino"
                     android:visibility="gone"
                     android:layout_width="match_parent"
@@ -49,6 +56,8 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="#ffffffff"
+                        android:textStyle="bold"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:text="@string/resultadosKino"/>
@@ -56,11 +65,13 @@
                     <RelativeLayout
                         android:id="@+id/numerosKino"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></RelativeLayout>
+                        android:background="@drawable/verde"
+                        android:layout_height="36dp"></RelativeLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:id="@+id/reKino"
                     android:visibility="gone"
                     android:layout_width="match_parent"
@@ -68,6 +79,8 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="#ffffffff"
+                        android:textStyle="bold"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:text="@string/resultadosReKino"/>
@@ -75,11 +88,13 @@
                     <RelativeLayout
                         android:id="@+id/numerosReKino"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></RelativeLayout>
+                        android:background="@drawable/verde"
+                        android:layout_height="36dp"></RelativeLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:id="@+id/chanchito"
                     android:visibility="gone"
                     android:layout_width="match_parent"
@@ -87,6 +102,8 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="#ffffffff"
+                        android:textStyle="bold"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:text="@string/resultadosChanchito"/>
@@ -94,7 +111,31 @@
                     <RelativeLayout
                         android:id="@+id/numerosChanchito"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></RelativeLayout>
+                        android:background="@drawable/verde"
+                        android:layout_height="36dp"></RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/premios"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:textColor="#ffffffff"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="@string/premios_txt"/>
+
+                    <TextView
+                        android:textColor="#ffffffff"
+                        android:textStyle="bold"
+                        android:id="@+id/premios_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 

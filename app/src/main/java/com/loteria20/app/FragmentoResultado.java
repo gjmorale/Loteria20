@@ -1,15 +1,15 @@
 package com.loteria20.app;
 
         import android.app.Fragment;
-        import android.graphics.Color;
+        import android.graphics.Typeface;
         import android.os.Bundle;
-        import android.view.Gravity;
-        import android.view.LayoutInflater;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-        import android.widget.RelativeLayout;
-        import android.widget.TextView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class FragmentoResultado extends Fragment {
 
@@ -18,7 +18,9 @@ public class FragmentoResultado extends Fragment {
     private static int idBase = 1234;
 
     public void setPosicion(int p)
-    {posicion = p;}
+    {
+        posicion = p;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,11 +28,13 @@ public class FragmentoResultado extends Fragment {
         View view = inflater.inflate(R.layout.fragment_resultado,
                 container, false);
         return view;
+
     }
     @Override
     public void onResume()
     {
         super.onResume();
+
         setText();
     }
 
@@ -47,7 +51,7 @@ public class FragmentoResultado extends Fragment {
             {
                 try
                 {
-                    view.setText("RESPUESTA: "+Controlador_Lista.getNombre(posicion));
+                    view.setText("RESULTADOS:");
                     Boleto res = new APILoteria().execute("03460035636774").get();
                     checked = setUpResultado(res);
                 }catch(Exception e)
@@ -83,6 +87,16 @@ public class FragmentoResultado extends Fragment {
                 getActivity().findViewById(R.id.chanchito).setVisibility(View.VISIBLE);
             }
 
+            String premio="";
+            int total = 0;
+            for(int i = 0;i<boleto.premios().length; i++)
+            {
+                premio +="\t\t\t" + boleto.premios()[i] + "\n";
+                total += boleto.premios()[i];
+            }
+            premio += "Total:\t\t" + total;
+            ((TextView)getActivity().findViewById(R.id.premios_txt)).setText(premio);
+
             ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.VISIBLE);
             ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.GONE);
 
@@ -107,25 +121,29 @@ public class FragmentoResultado extends Fragment {
             numero.setText(String.valueOf(numeros[i]));
             idBase++;
             numero.setId(idBase);
-            params = new RelativeLayout.LayoutParams(15,15);
+            params = new RelativeLayout.LayoutParams(20,20);
             if(i != 0)
             {
                 params.addRule(RelativeLayout.RIGHT_OF, (idBase-1));
+                params.setMargins(2, 8, 2, 8);
             }
             else
             {
                 params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                params.setMargins(8, 8, 2, 8);
             }
+            numero.setPadding(0,0,5,5);
             numero.setGravity(Gravity.CENTER);
             numero.setLayoutParams(params);
+            numero.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             if(j<check.length && check[j]==numeros[i])
             {
                 j++;
-                numero.setBackgroundColor(Color.GREEN);
+                numero.setBackgroundResource(R.drawable.pelotacheck);
             }
             else
             {
-                numero.setBackgroundColor(Color.RED);
+                numero.setBackgroundResource(R.drawable.pelota);
             }
             rl.addView(numero);
         }

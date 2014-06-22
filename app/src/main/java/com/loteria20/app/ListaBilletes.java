@@ -69,7 +69,7 @@ public class ListaBilletes extends ActionBarActivity {
             vacio = false;
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_spinner_item,list);
+                (this, R.layout.my_spinner_item,list);
 
         dataAdapter.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
