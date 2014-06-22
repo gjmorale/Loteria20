@@ -3,10 +3,21 @@ package com.loteria20.app;
 /**
  * Created by gmo on 6/20/14.
  */
+
+
 public class Boleto
 {
+    public enum juegos {KINO, REKINO, CHANCHITO;}
 
+
+    //en numeros almacenamos los numeros del carton
     private int[] numeros;
+
+    //indicamos de que juego es este carton
+    private juegos tipoJuego;
+
+    String Fecha;
+    boolean realizado;
 
     public Boleto()
     {
@@ -15,29 +26,45 @@ public class Boleto
 
     public boolean kino()
     {
-        return true;
+        if(tipoJuego==juegos.KINO)
+            return true;
+        else
+            return false;
     }
 
     public boolean reKino()
     {
-        return true;
+        if(tipoJuego==juegos.REKINO)
+            return true;
+        else
+            return false;
     }
 
     public boolean chanchito()
     {
-        return true;
+        if(tipoJuego==juegos.CHANCHITO)
+            return true;
+        else
+            return false;
     }
 
     public int[] getNumeros()
     {
-        return new int[]{1,2,3,4,5};
+       return new int[]{1,2,3,4,5};
+       //return numeros;
     }
 
     public String getFecha()
-    {return "Hoy día";}
+    {
+        return "Hoy día";
+        //return Fecha;
+    }
 
     public boolean sorteoRealizado()
-    {return true;}
+    {
+        return true;
+        //return realizado;
+    }
 
     public int chanchitoRegalonNumeroAciertos()
     {return 5;}
