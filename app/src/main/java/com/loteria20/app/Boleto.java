@@ -11,10 +11,10 @@ public class Boleto
     private boolean[] coincidenciasReKino = new boolean[14];
     private int[] montos = new int[6];
     private boolean hayResultados = false;
-    private boolean hayRespuesta = true;
-    public boolean respuesta(){return hayRespuesta;}
     private String fechaSorteo = "";
     public String respuestaOriginal;
+    private String respuestaOut;
+    public String respuesta(){return respuestaOut;}
 
     public Boleto(String result)
     {
@@ -24,7 +24,7 @@ public class Boleto
         Hashtable<String, String> ht = new Hashtable<String, String>();
         for (String s: splitten){
             String[] a = s.split("=");
-            if(s.length()>1)
+            if(a.length>1)
                 ht.put(a[0], a[1]);
         }
 
@@ -58,7 +58,15 @@ public class Boleto
         }
         else if(ht.get("respuesta").equals("4"))
         {
-            hayRespuesta = false;
+            respuestaOut = "Código del billete ingresado no es válido.";
+        }
+        else if(ht.get("respuesta").equals("2"))
+        {
+            respuestaOut = "Sorteo se realizó hace más de 60 días.";
+        }
+        else
+        {
+            respuestaOut = respuestaOriginal;
         }
 
     }

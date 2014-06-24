@@ -53,7 +53,7 @@ public class FragmentoResultado extends Fragment {
                 {
                     view.setText("RESULTADOS:");
                     Boleto res = new APILoteria().execute("03460035636774").get();
-                    view.setText(res.respuestaOriginal);
+                    //view.setText(res.respuestaOriginal);
                     checked = setUpResultado(res);
                 }catch(Exception e)
                 {
@@ -66,7 +66,7 @@ public class FragmentoResultado extends Fragment {
     private boolean setUpResultado(Boleto boleto)
     {
         LinearLayout view_lista = (LinearLayout)getActivity().findViewById(R.id.lista_resultados);
-        if(boleto.sorteoRealizado() && boleto.respuesta())
+        if(boleto.sorteoRealizado())
         {
             setNumeros(boleto.getNumeros(),boleto.getNumeros(), (RelativeLayout)getActivity().findViewById(R.id.numeros));
 
@@ -103,18 +103,11 @@ public class FragmentoResultado extends Fragment {
 
             return true;
         }
-        else if(boleto.respuesta())
-        {
-            ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.GONE);
-            //((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.VISIBLE);
-            ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuestaOriginal);
-            return false;
-        }
         else
         {
             ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.GONE);
-            //((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.VISIBLE);
-            ((TextView)getActivity().findViewById(R.id.anuncio)).setText("Codigo mal ingresado");
+            ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.VISIBLE);
+            ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuesta());
             return false;
         }
     }
