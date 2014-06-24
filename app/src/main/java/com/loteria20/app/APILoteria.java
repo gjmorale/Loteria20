@@ -18,8 +18,8 @@ public class APILoteria extends AsyncTask<String, Integer, Boleto> {
     @Override
     protected Boleto doInBackground(String... params) {
         // TODO Auto-generated method stub
-        return new Boleto();
-        //return getData(params[0]);
+        return new Boleto(getData(params[0]));
+
     }
 
     protected void onPostExecute(String result) {
@@ -48,7 +48,7 @@ public class APILoteria extends AsyncTask<String, Integer, Boleto> {
     public String getData(String ticketNumber) {
 
         try{
-            URL url = new URL("http://www.loteria.cl/KinoASP/procesa_consulta_kinoP3V2i016CJNK.asp?onHTTPStatus=%5Btype%20Function%5D&Nconsulta=1&panel=0&DV=&Rut=&boleto=0" + ticketNumber + "&sorteo=0");
+            URL url = new URL("http://www.loteria.cl/KinoASP/procesa_consulta_kinoP3V2i016CJNK.asp?onHTTPStatus=%5Btype%20Function%5D&Nconsulta=1&panel=0&DV=&Rut=&boleto=" + ticketNumber + "&sorteo=0");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             try {

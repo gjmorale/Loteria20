@@ -2,9 +2,6 @@ package com.loteria20.app;
 
 import java.util.Hashtable;
 
-/**
- * Created by gmo on 6/20/14.
- */
 public class Boleto
 {
 
@@ -15,14 +12,23 @@ public class Boleto
     private int[] montos = new int[6];
     private boolean hayResultados = false;
     private String fechaSorteo = "";
+    public String respuestaOriginal;
+    private String respuestaOut;
+    public String respuesta(){return respuestaOut;}
+
+
+
 
     public Boleto(String result)
     {
+        respuestaOriginal = result;
+        System.out.print(respuestaOriginal);
         String[] splitten = result.substring(1, result.length()-2).split("&");
         Hashtable<String, String> ht = new Hashtable<String, String>();
         for (String s: splitten){
             String[] a = s.split("=");
-            ht.put(a[0], a[1]);
+            if(a.length>1)
+                ht.put(a[0], a[1]);
         }
 
         if(ht.get("respuesta").equals("1")){
@@ -48,13 +54,29 @@ public class Boleto
             String[] stringCoincidenciasChanchito = ht.get("AKinoJuego1P1").split(",");
             coincidenciasChanchito = stringTobooleanArray(stringCoincidenciasChanchito);
             String[] stringCoincidenciasKino = ht.get("AKino1").split(",");
-            coincidenciasChanchito = stringTobooleanArray(stringCoincidenciasKino);
+            coincidenciasKinoNormal = stringTobooleanArray(stringCoincidenciasKino);
             String[] stringCoincidenciasReKino = ht.get("AReKino1").split(",");
-            coincidenciasChanchito = stringTobooleanArray(stringCoincidenciasChanchito);
+            coincidenciasReKino = stringTobooleanArray(stringCoincidenciasReKino);
 
+        }
+        else if(ht.get("respuesta").equals("4"))
+        {
+            respuestaOut = "Código del billete ingresado no es válido.";
+        }
+        else if(ht.get("respuesta").equals("2"))
+        {
+            respuestaOut = "Sorteo se realizó hace más de 60 días.";
+        }
+        else
+        {
+            respuestaOut = respuestaOriginal;
         }
 
     }
+
+    public boolean kino(){return true;}
+    public boolean reKino(){return true;}
+    public boolean chanchito(){return true;}
 
     public int[] getNumeros()
     {

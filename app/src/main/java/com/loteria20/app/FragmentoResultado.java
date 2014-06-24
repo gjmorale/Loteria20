@@ -53,6 +53,7 @@ public class FragmentoResultado extends Fragment {
                 {
                     view.setText("RESULTADOS:");
                     Boleto res = new APILoteria().execute("03460035636774").get();
+                    //view.setText(res.respuestaOriginal);
                     checked = setUpResultado(res);
                 }catch(Exception e)
                 {
@@ -106,6 +107,7 @@ public class FragmentoResultado extends Fragment {
         {
             ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.GONE);
             ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.VISIBLE);
+            ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuesta());
             return false;
         }
     }
