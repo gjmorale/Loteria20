@@ -18,8 +18,8 @@ public class APILoteria extends AsyncTask<String, Integer, Boleto> {
     @Override
     protected Boleto doInBackground(String... params) {
         // TODO Auto-generated method stub
-        return new Boleto();
-        //return getData(params[0]);
+        return new Boleto(getData(params[0]));
+
     }
 
     protected void onPostExecute(String result) {
