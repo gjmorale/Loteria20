@@ -21,6 +21,7 @@ import java.util.List;
 public class ListaBilletes extends ActionBarActivity {
 
     private boolean vacio;
+    private FragmentoResultado mFragmento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class ListaBilletes extends ActionBarActivity {
         });
 
         Controlador_Lista.start();
+        mFragmento = new FragmentoResultado();
 
         showResult(0);
     }
