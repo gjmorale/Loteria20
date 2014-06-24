@@ -1,12 +1,14 @@
 package com.loteria20.app;
 
-        import android.app.Fragment;
-        import android.graphics.Typeface;
-        import android.os.Bundle;
+import android.app.Fragment;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -100,6 +102,7 @@ public class FragmentoResultado extends Fragment {
 
             ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.VISIBLE);
             ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.GONE);
+            ((Button)getActivity().findViewById(R.id.button_comprar)).setVisibility(View.VISIBLE);
 
             return true;
         }
@@ -107,6 +110,7 @@ public class FragmentoResultado extends Fragment {
         {
             ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.GONE);
             ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.VISIBLE);
+            ((Button)getActivity().findViewById(R.id.button_comprar)).setVisibility(View.GONE);
             ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuesta()+"\n\n"+Controlador_Lista.getCodigo(posicion));
             return false;
         }
@@ -115,7 +119,7 @@ public class FragmentoResultado extends Fragment {
     private void setPremios(int[] montos)
     {
         String premio="";
-        String sPremio = "Kino:\nReKino:\nChao Jefe:\n???\n????\nChanchito:\nTotal:";
+        String sPremio = "Kino:\nReKino:\nChao Jefe:\nCombo Marraqueta:\nGana Más\nChanchito Regalón:\nTotal:";
         int total = 0;
         for(int i = 0;i<montos.length; i++)
         {
@@ -133,6 +137,9 @@ public class FragmentoResultado extends Fragment {
         TextView numero;
         RelativeLayout.LayoutParams params;
         int j = 0;
+        float proporcion = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
+        int height = (int)(25*proporcion);
+        int width = height;
         int par;
         for(int i = 0; i< numeros.length; i++)
         {
@@ -141,7 +148,8 @@ public class FragmentoResultado extends Fragment {
             numero.setText(String.valueOf(numeros[i]));
             idBase++;
             numero.setId(idBase);
-            params = new RelativeLayout.LayoutParams(25,25);
+            numero.setTextSize(12*proporcion);
+            params = new RelativeLayout.LayoutParams(width,height);
             if(i != 0)
             {
                 if(par==0)
