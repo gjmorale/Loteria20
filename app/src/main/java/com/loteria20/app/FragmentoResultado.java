@@ -19,7 +19,16 @@ public class FragmentoResultado extends Fragment {
 
     public void setPosicion(int p)
     {
+        boolean cambio = false;
+        if(posicion != p)
+            cambio = true;
         posicion = p;
+        if(cambio)
+        {
+            checked = false;
+            setText();
+        }
+
     }
 
     @Override
@@ -52,8 +61,7 @@ public class FragmentoResultado extends Fragment {
                 try
                 {
                     view.setText("RESULTADOS:");
-                    Boleto res = new APILoteria().execute("52020561737292").get();
-                    //view.setText(res.respuestaOriginal);
+                    Boleto res = new APILoteria().execute(Controlador_Lista.getCodigo(posicion)).get();
                     checked = setUpResultado(res);
                 }catch(Exception e)
                 {
@@ -99,7 +107,7 @@ public class FragmentoResultado extends Fragment {
         {
             ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.GONE);
             ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.VISIBLE);
-            ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuesta());
+            ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuesta()+"\n\n"+Controlador_Lista.getCodigo(posicion));
             return false;
         }
     }

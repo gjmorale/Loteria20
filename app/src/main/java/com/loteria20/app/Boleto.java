@@ -65,7 +65,7 @@ public class Boleto
         }
         else
         {
-            respuestaOut = respuestaOriginal;
+            respuestaOut = "Error: " + respuestaOriginal;
         }
 
     }
