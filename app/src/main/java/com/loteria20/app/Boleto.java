@@ -8,6 +8,15 @@ public class Boleto
     private boolean[] coincidenciasChanchito = new boolean[14];
     private boolean[] coincidenciasKinoNormal = new boolean[14];
     private boolean[] coincidenciasReKino = new boolean[14];
+    private boolean[] coincidenciasGanaMas = new boolean[14];
+    private boolean[][] coincidenciasChaoJefe = new boolean[4][];
+    private boolean[][] coincidenciasComboMarraqueta = new boolean[5][];
+    public boolean kino = false;
+    public boolean reKino = false;
+    public boolean chanchito = false;
+    public boolean ganaMas = false;
+    public boolean chaoJefe = false;
+    public boolean comboMarraqueta = false;
     private int[] montos = new int[6];
     private boolean hayResultados = false;
     private String fechaSorteo = "";
@@ -21,7 +30,6 @@ public class Boleto
     public Boleto(String result)
     {
         respuestaOriginal = result;
-        System.out.print(respuestaOriginal);
         if(result.length() <= 3 || !result.contains("&"))
         {
             respuestaOut = "Error de conección";
@@ -55,13 +63,41 @@ public class Boleto
                 numeros[index] = Integer.parseInt(s);
                 index++;
             }
-
+            kino = ht.get("AKino1").length() > 0 ;
+            reKino = ht.get("AReKino1").length() > 0 ;
+            chanchito = ht.get("AKinoJuego1P1").length() > 0 ;
+            ganaMas = ht.get("AKinoMG1").length() > 0 ;
+            chaoJefe = ht.get("AKinoCJOp11").length() > 0;
+            comboMarraqueta = ht.get("AKinoCJ2Op11").length() > 0;
+            if(chanchito){
             String[] stringCoincidenciasChanchito = ht.get("AKinoJuego1P1").split(",");
             coincidenciasChanchito = stringTobooleanArray(stringCoincidenciasChanchito);
+            }
+            if(kino){
             String[] stringCoincidenciasKino = ht.get("AKino1").split(",");
             coincidenciasKinoNormal = stringTobooleanArray(stringCoincidenciasKino);
+            }
+            if(reKino){
             String[] stringCoincidenciasReKino = ht.get("AReKino1").split(",");
             coincidenciasReKino = stringTobooleanArray(stringCoincidenciasReKino);
+            }
+            if(ganaMas){
+            String[] stringCoincidenciasGanaMas = ht.get("AKinoMG1").split(",");
+            coincidenciasGanaMas = stringTobooleanArray(stringCoincidenciasGanaMas);
+            }
+            if(chaoJefe){
+                coincidenciasChaoJefe[0] = stringTobooleanArray(ht.get("AKinoCJOp11").split(","));
+                coincidenciasChaoJefe[0] = stringTobooleanArray(ht.get("AKinoCJOp21").split(","));
+                coincidenciasChaoJefe[0] = stringTobooleanArray(ht.get("AKinoCJOp31").split(","));
+                coincidenciasChaoJefe[0] = stringTobooleanArray(ht.get("AKinoCJOp41").split(","));
+            }
+            if(comboMarraqueta){
+                coincidenciasComboMarraqueta[0] = stringTobooleanArray(ht.get("AKinoCJOp11").split(","));
+                coincidenciasComboMarraqueta[0] = stringTobooleanArray(ht.get("AKinoCJOp21").split(","));
+                coincidenciasComboMarraqueta[0] = stringTobooleanArray(ht.get("AKinoCJOp31").split(","));
+                coincidenciasComboMarraqueta[0] = stringTobooleanArray(ht.get("AKinoCJOp41").split(","));
+            }
+
 
         }
         else if(ht.get("respuesta").equals("4"))
@@ -82,12 +118,8 @@ public class Boleto
 
     }
 
-    public boolean kino(){return true;}
-    public boolean reKino(){return true;}
-    public boolean chanchito(){return true;}
 
-    public int[] getNumeros()
-    {
+    public int[] getNumeros(){
         return numeros;
     }
 
@@ -100,58 +132,38 @@ public class Boleto
     public int chanchitoRegalonNumeroAciertos()
     {return coincidenciasChanchito.length;}
 
-    public int KinoNumeroAciertos()
+    public int kinoNumeroAciertos()
     {return coincidenciasKinoNormal.length;}
 
-    public int ReKinoNumeroAciertos()
+    public int reKinoNumeroAciertos()
     {return coincidenciasReKino.length;}
 
+    public int ganaMasNumeroAciertos()
+    {return coincidenciasGanaMas.length;}
+
     public int[] listaChanchito(){
-        int numberOfMatches = 0;
-        for(boolean b : coincidenciasChanchito){
-            if (b) numberOfMatches++;
-        }
-        int[] numerosCoincidentes = new int[numberOfMatches];
-        int indexCoincidentes = 0;
-        for(int i = 0; i< coincidenciasChanchito.length; i++){
-            if(coincidenciasChanchito[i]){
-                numerosCoincidentes[indexCoincidentes] = numeros[i];
-                indexCoincidentes++;
-            }
-        }
-        return numerosCoincidentes;
+        return getMatches(coincidenciasChanchito);
     }
 
     public int[] listaKino(){
-        int numberOfMatches = 0;
-        for(boolean b : coincidenciasKinoNormal){
-            if (b) numberOfMatches++;
-        }
-        int[] numerosCoincidentes = new int[numberOfMatches];
-        int indexCoincidentes = 0;
-        for(int i = 0; i< coincidenciasKinoNormal.length; i++){
-            if(coincidenciasKinoNormal[i]){
-                numerosCoincidentes[indexCoincidentes] = numeros[i];
-                indexCoincidentes++;
-            }
-        }
-        return numerosCoincidentes;
+        return getMatches(coincidenciasKinoNormal);
     }
 
     public int[] listaReKino(){
-        int numberOfMatches = 0;
-        for(boolean b : coincidenciasReKino){
-            if (b) numberOfMatches++;
-        }
-        int[] numerosCoincidentes = new int[numberOfMatches];
-        int indexCoincidentes = 0;
-        for(int i = 0; i< coincidenciasReKino.length; i++){
-            if(coincidenciasReKino[i]){
-                numerosCoincidentes[indexCoincidentes] = numeros[i];
-                indexCoincidentes++;
-            }
-        }
-        return numerosCoincidentes;
+        return getMatches(coincidenciasReKino);
+    }
+
+    public int[] listaGanaMas(){
+        return getMatches(coincidenciasGanaMas);
+    }
+
+    public int[][] listasChaoJefe(){
+        int[][] result = new int[4][];
+        return result;
+    }
+
+    public int[][] listasComboMarraqueta(){
+              return new int[1][];
     }
 
     public int[] premios()
@@ -169,4 +181,19 @@ public class Boleto
         return result;
     }
 
+    private int[] getMatches(boolean[] matches){
+        int numberOfMatches = 0;
+        for(boolean b : matches){
+            if (b) numberOfMatches++;
+        }
+        int[] numerosCoincidentes = new int[numberOfMatches];
+        int indexCoincidentes = 0;
+        for(int i = 0; i< matches.length; i++){
+            if(matches[i]){
+                numerosCoincidentes[indexCoincidentes] = numeros[i];
+                indexCoincidentes++;
+            }
+        }
+        return numerosCoincidentes;
+    }
 }
