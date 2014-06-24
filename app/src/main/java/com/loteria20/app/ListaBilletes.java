@@ -1,8 +1,6 @@
 package com.loteria20.app;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +19,7 @@ import java.util.List;
 public class ListaBilletes extends ActionBarActivity {
 
     private boolean vacio;
+    private int mPos;
     private FragmentoResultado mFragmento;
 
     @Override
@@ -33,6 +32,12 @@ public class ListaBilletes extends ActionBarActivity {
         setUpSpinner(defecto);
 
         vacio = true;
+        mPos = 0;
+
+        if(savedInstanceState != null && savedInstanceState.containsKey("posicion"))
+            mPos = savedInstanceState.getInt("posicion");
+
+        mFragmento = (FragmentoResultado)getFragmentManager().findFragmentById(R.id.fragmento);
 
         Spinner sp = (Spinner)findViewById(R.id.lista_billetes);
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -51,14 +56,18 @@ public class ListaBilletes extends ActionBarActivity {
         });
 
         Controlador_Lista.start();
-        mFragmento = new FragmentoResultado();
+    }
 
-        showResult(0);
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        savedInstanceState.putInt("posicion", mPos);
+
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     private void setUpSpinner(List<String> list)
     {
-
         /*Preparar spinner con opciones de distintos juegos*/
         Spinner spinner1 = (Spinner) findViewById(R.id.lista_billetes);
 
@@ -66,9 +75,16 @@ public class ListaBilletes extends ActionBarActivity {
         {
             list.add("Aún no tiene billetes registrados");
             vacio = true;
+            mPos = 0;
         }
         else
+        {
             vacio = false;
+            if(mPos>=list.size())
+            {
+                mPos = list.size()-1;
+            }
+        }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                 (this, R.layout.my_spinner_item,list);
@@ -78,17 +94,17 @@ public class ListaBilletes extends ActionBarActivity {
 
         spinner1.setAdapter(dataAdapter);
 
+        spinner1.setSelection(mPos);
+
     }
 
     private void showResult(int posicion)
     {
-        FragmentoResultado res = new FragmentoResultado();
+        mPos = posicion;
         if(!vacio)
-            res.setPosicion(posicion);
+            mFragmento.setPosicion(posicion);
         else
-            res.setPosicion(-1);
-        FragmentTransaction ft = getFragmentManager().beginTransaction().replace(R.id.container,(Fragment)res);
-        ft.commit();
+            mFragmento.setPosicion(-1);
     }
 
     @Override
@@ -108,13 +124,7 @@ public class ListaBilletes extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-        if (id == R.id.action_capture) {
-            Intent intent = new Intent(this, Captura_Billete.class);
-            startActivity(intent);
-            return true;
-        }
-
-        if (id == R.id.action_agregar) {
+        if (id == R.id.action_capture || id == R.id.action_agregar) {
             Intent intent = new Intent(this, Captura_Billete.class);
             startActivity(intent);
             return true;
@@ -196,8 +206,9 @@ public class ListaBilletes extends ActionBarActivity {
     {
         super.onResume();
         List<String> list = Controlador_Lista.getNombres();
-        if(list.size()>0)
-            setUpSpinner(list);
+        setUpSpinner(list);
+
+        showResult(mPos);
 
     }
 
