@@ -9,8 +9,8 @@
         android:title="@string/action_capture"
         app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+    <item android:id="@+id/action_comprar"
+        android:title="@string/action_comprar"
         android:orderInCategory="100"
         app:showAsAction="never" />
 

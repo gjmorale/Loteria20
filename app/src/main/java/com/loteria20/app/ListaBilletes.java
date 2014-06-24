@@ -3,6 +3,7 @@ package com.loteria20.app;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -115,13 +116,21 @@ public class ListaBilletes extends ActionBarActivity {
         return true;
     }
 
+    public void comprar(View v)
+    {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.loteria.cl/movilnet/"));
+        startActivity(browserIntent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_comprar) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.loteria.cl/movilnet/"));
+            startActivity(browserIntent);
             return true;
         }
         if (id == R.id.action_capture || id == R.id.action_agregar) {

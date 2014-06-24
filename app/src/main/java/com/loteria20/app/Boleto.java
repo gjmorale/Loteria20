@@ -22,6 +22,12 @@ public class Boleto
     {
         respuestaOriginal = result;
         System.out.print(respuestaOriginal);
+        if(result.length() <= 3 || !result.contains("&"))
+        {
+            respuestaOut = "Error de conección";
+            hayResultados = false;
+            return;
+        }
         String[] splitten = result.substring(1, result.length()-2).split("&");
         Hashtable<String, String> ht = new Hashtable<String, String>();
         for (String s: splitten){
@@ -64,7 +70,10 @@ public class Boleto
         }
         else if(ht.get("respuesta").equals("2"))
         {
-            respuestaOut = "Sorteo se realizó hace más de 60 días.";
+            if(ht.get("mensaje").contains("prescrito"))
+                respuestaOut = "Sorteo se realizó hace más de 60 días.";
+            else
+                respuestaOut = "Sorteo aún no se ha realizado.";
         }
         else
         {

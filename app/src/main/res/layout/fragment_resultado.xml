@@ -162,6 +162,18 @@
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/button_comprar"
+                android:text="@string/button_comprar"
+                android:visibility="gone"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:onClick="comprar"
+                android:background="@drawable/rojo"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="70dp" />
+
         </LinearLayout>
 
     </ScrollView>
