@@ -52,7 +52,7 @@ public class FragmentoResultado extends Fragment {
                 try
                 {
                     view.setText("RESULTADOS:");
-                    Boleto res = new APILoteria().execute("03460035636774").get();
+                    Boleto res = new APILoteria().execute("52020561737292").get();
                     //view.setText(res.respuestaOriginal);
                     checked = setUpResultado(res);
                 }catch(Exception e)
@@ -68,7 +68,7 @@ public class FragmentoResultado extends Fragment {
         LinearLayout view_lista = (LinearLayout)getActivity().findViewById(R.id.lista_resultados);
         if(boleto.sorteoRealizado())
         {
-            setNumeros(boleto.getNumeros(),boleto.getNumeros(), (RelativeLayout)getActivity().findViewById(R.id.numeros));
+            setNumeros(boleto.getNumeros(),new int[]{-1}, (RelativeLayout)getActivity().findViewById(R.id.numeros));
 
             if(boleto.kino())
             {
@@ -88,15 +88,7 @@ public class FragmentoResultado extends Fragment {
                 getActivity().findViewById(R.id.chanchito).setVisibility(View.VISIBLE);
             }
 
-            String premio="";
-            int total = 0;
-            for(int i = 0;i<boleto.premios().length; i++)
-            {
-                premio +="\t\t\t" + boleto.premios()[i] + "\n";
-                total += boleto.premios()[i];
-            }
-            premio += "Total:\t\t" + total;
-            ((TextView)getActivity().findViewById(R.id.premios_txt)).setText(premio);
+            setPremios(boleto.premios());
 
             ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.VISIBLE);
             ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.GONE);
@@ -112,27 +104,62 @@ public class FragmentoResultado extends Fragment {
         }
     }
 
+    private void setPremios(int[] montos)
+    {
+        String premio="";
+        String sPremio = "Kino:\nReKino:\nChao Jefe:\n???\n????\nChanchito:\nTotal:";
+        int total = 0;
+        for(int i = 0;i<montos.length; i++)
+        {
+            premio += "$ " + montos[i] + "\n";
+            total += montos[i];
+        }
+        premio += "$ " + total;
+
+        ((TextView)getActivity().findViewById(R.id.premios_int)).setText(premio);
+        ((TextView)getActivity().findViewById(R.id.premios_txt)).setText(sPremio);
+    }
+
     private void setNumeros(int[] numeros, int[] check, RelativeLayout rl)
     {
         TextView numero;
         RelativeLayout.LayoutParams params;
         int j = 0;
+        int par;
         for(int i = 0; i< numeros.length; i++)
         {
+            par = i%2;
             numero = new TextView(getActivity());
             numero.setText(String.valueOf(numeros[i]));
             idBase++;
             numero.setId(idBase);
-            params = new RelativeLayout.LayoutParams(20,20);
+            params = new RelativeLayout.LayoutParams(25,25);
             if(i != 0)
             {
-                params.addRule(RelativeLayout.RIGHT_OF, (idBase-1));
-                params.setMargins(2, 8, 2, 8);
+                if(par==0)
+                {
+                    params.addRule(RelativeLayout.RIGHT_OF, (idBase-2));
+                    params.setMargins(2, 8, 2, 2);
+                }
+                else
+                {
+                    if(i == 1)
+                    {
+                        params.addRule(RelativeLayout.BELOW, (idBase-1));
+                        params.setMargins(8, 2, 2, 8);
+                    }
+                    else
+                    {
+                        params.addRule(RelativeLayout.RIGHT_OF, (idBase-2));
+                        params.addRule(RelativeLayout.BELOW, (idBase-1));
+                        params.setMargins(2, 2, 2, 8);
+                    }
+                }
             }
             else
             {
                 params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                params.setMargins(8, 8, 2, 8);
+                params.setMargins(8, 8, 2, 2);
             }
             numero.setPadding(0,0,5,5);
             numero.setGravity(Gravity.CENTER);

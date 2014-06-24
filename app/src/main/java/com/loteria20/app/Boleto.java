@@ -4,7 +4,6 @@ import java.util.Hashtable;
 
 public class Boleto
 {
-
     private int[] numeros = new int[14];
     private boolean[] coincidenciasChanchito = new boolean[14];
     private boolean[] coincidenciasKinoNormal = new boolean[14];
@@ -144,7 +143,9 @@ public class Boleto
     }
 
     public int[] premios()
-    {return montos;}
+    {
+        return montos;
+    }
 
     private boolean[] stringTobooleanArray(String[] values){
         boolean[] result = new boolean[values.length];
