@@ -87,15 +87,16 @@ public class Boleto
             }
             if(chaoJefe){
                 coincidenciasChaoJefe[0] = stringTobooleanArray(ht.get("AKinoCJOp11").split(","));
-                coincidenciasChaoJefe[0] = stringTobooleanArray(ht.get("AKinoCJOp21").split(","));
-                coincidenciasChaoJefe[0] = stringTobooleanArray(ht.get("AKinoCJOp31").split(","));
-                coincidenciasChaoJefe[0] = stringTobooleanArray(ht.get("AKinoCJOp41").split(","));
+                coincidenciasChaoJefe[1] = stringTobooleanArray(ht.get("AKinoCJOp21").split(","));
+                coincidenciasChaoJefe[2] = stringTobooleanArray(ht.get("AKinoCJOp31").split(","));
+                coincidenciasChaoJefe[3] = stringTobooleanArray(ht.get("AKinoCJOp41").split(","));
             }
             if(comboMarraqueta){
-                coincidenciasComboMarraqueta[0] = stringTobooleanArray(ht.get("AKinoCJOp11").split(","));
-                coincidenciasComboMarraqueta[0] = stringTobooleanArray(ht.get("AKinoCJOp21").split(","));
-                coincidenciasComboMarraqueta[0] = stringTobooleanArray(ht.get("AKinoCJOp31").split(","));
-                coincidenciasComboMarraqueta[0] = stringTobooleanArray(ht.get("AKinoCJOp41").split(","));
+                coincidenciasComboMarraqueta[0] = stringTobooleanArray(ht.get("AKinoCJ2Op11").split(","));
+                coincidenciasComboMarraqueta[1] = stringTobooleanArray(ht.get("AKinoCJ2Op21").split(","));
+                coincidenciasComboMarraqueta[2] = stringTobooleanArray(ht.get("AKinoCJ2Op31").split(","));
+                coincidenciasComboMarraqueta[3] = stringTobooleanArray(ht.get("AKinoCJ2Op41").split(","));
+                coincidenciasComboMarraqueta[4] = stringTobooleanArray(ht.get("AKinoCJ2Op41").split(","));
             }
 
 
@@ -159,11 +160,21 @@ public class Boleto
 
     public int[][] listasChaoJefe(){
         int[][] result = new int[4][];
+        result[0] = getMatches(coincidenciasChaoJefe[0]);
+        result[1] = getMatches(coincidenciasChaoJefe[1]);
+        result[2] = getMatches(coincidenciasChaoJefe[2]);
+        result[3] = getMatches(coincidenciasChaoJefe[3]);
         return result;
     }
 
     public int[][] listasComboMarraqueta(){
-              return new int[1][];
+        int[][] result = new int[5][];
+        result[0] = getMatches(coincidenciasComboMarraqueta[0]);
+        result[1] = getMatches(coincidenciasComboMarraqueta[1]);
+        result[2] = getMatches(coincidenciasComboMarraqueta[2]);
+        result[3] = getMatches(coincidenciasComboMarraqueta[3]);
+        result[4] = getMatches(coincidenciasComboMarraqueta[4]);
+        return result;
     }
 
     public int[] premios()
