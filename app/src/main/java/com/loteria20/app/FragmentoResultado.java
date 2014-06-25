@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.concurrent.ExecutionException;
+
 public class FragmentoResultado extends Fragment {
 
     private int posicion;
@@ -66,7 +68,10 @@ public class FragmentoResultado extends Fragment {
                     view.setText("RESULTADOS:");
                     Boleto res = new APILoteria().execute(Controlador_Lista.getCodigo(posicion)).get();
                     checked = setUpResultado(res);
-                }catch(Exception e)
+                }catch(InterruptedException e)
+                {
+                    view.setText(e.toString());
+                }catch(ExecutionException e)
                 {
                     view.setText(e.toString());
                 }
@@ -98,7 +103,7 @@ public class FragmentoResultado extends Fragment {
             }
             if(boleto.chaoJefe)
             {
-                for(int i = 0; i<boleto.listasComboMarraqueta().length ; i++)
+                for(int i = 0; i<boleto.listasChaoJefe().length ; i++)
                 {
                     setJuego("Chao Jefe sorteo n°"+i, boleto.getNumeros(), boleto.listasChaoJefe()[i], view_lista);
                 }
@@ -117,7 +122,7 @@ public class FragmentoResultado extends Fragment {
             ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.GONE);
             ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.VISIBLE);
             ((Button)getActivity().findViewById(R.id.button_comprar)).setVisibility(View.GONE);
-            ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuesta()+"\n\n"+Controlador_Lista.getCodigo(posicion));
+            ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuesta());
             return false;
         }
     }

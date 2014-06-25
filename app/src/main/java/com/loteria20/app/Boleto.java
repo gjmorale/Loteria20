@@ -96,7 +96,7 @@ public class Boleto
                 coincidenciasComboMarraqueta[1] = stringTobooleanArray(ht.get("AKinoCJ2Op21").split(","));
                 coincidenciasComboMarraqueta[2] = stringTobooleanArray(ht.get("AKinoCJ2Op31").split(","));
                 coincidenciasComboMarraqueta[3] = stringTobooleanArray(ht.get("AKinoCJ2Op41").split(","));
-                coincidenciasComboMarraqueta[4] = stringTobooleanArray(ht.get("AKinoCJ2Op41").split(","));
+                coincidenciasComboMarraqueta[4] = stringTobooleanArray(ht.get("AKinoCJ2Op51").split(","));
             }
 
 
