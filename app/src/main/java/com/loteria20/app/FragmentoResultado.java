@@ -1,6 +1,7 @@
 package com.loteria20.app;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -75,28 +76,36 @@ public class FragmentoResultado extends Fragment {
 
     private boolean setUpResultado(Boleto boleto)
     {
-        LinearLayout view_lista = (LinearLayout)getActivity().findViewById(R.id.lista_resultados);
+        LinearLayout view_lista = (LinearLayout)getActivity().findViewById(R.id.dinamico);
         if(boleto.sorteoRealizado())
         {
-            setNumeros(boleto.getNumeros(),new int[]{-1}, (RelativeLayout)getActivity().findViewById(R.id.numeros));
+            view_lista.removeAllViews();
+            setJuego("Numeros del cartón:",boleto.getNumeros(), new int[]{-1},view_lista);
+            if(boleto.kino())
+                setJuego("Aciertos en Kino:",boleto.getNumeros(), boleto.listaKino(),view_lista);
+            if(boleto.reKino())
+                setJuego("Aciertos en ReKino:",boleto.getNumeros(), boleto.listaReKino(),view_lista);
+            if(boleto.chanchito())
+                setJuego("Aciertos en Chanchito Regalón:",boleto.getNumeros(), boleto.listaChanchito(),view_lista);
+            /*setNumeros("Numeros",boleto.getNumeros(),new int[]{-1}, (RelativeLayout)getActivity().findViewById(R.id.numeros));
 
             if(boleto.kino())
             {
-                setNumeros(boleto.getNumeros(), boleto.listaKino(), (RelativeLayout) getActivity().findViewById(R.id.numerosKino));
+                setNumeros("Kino", boleto.getNumeros(), boleto.listaKino(), (RelativeLayout) getActivity().findViewById(R.id.numerosKino));
                 getActivity().findViewById(R.id.kino).setVisibility(View.VISIBLE);
             }
 
             if(boleto.reKino())
             {
-                setNumeros(boleto.getNumeros(), boleto.listaReKino(), (RelativeLayout) getActivity().findViewById(R.id.numerosReKino));
+                setNumeros("ReKino", boleto.getNumeros(), boleto.listaReKino(), (RelativeLayout) getActivity().findViewById(R.id.numerosReKino));
                 getActivity().findViewById(R.id.reKino).setVisibility(View.VISIBLE);
             }
 
             if(boleto.chanchito())
             {
-                setNumeros(boleto.getNumeros(), boleto.listaChanchito(), (RelativeLayout) getActivity().findViewById(R.id.numerosChanchito));
+                setNumeros("Chanchito", boleto.getNumeros(), boleto.listaChanchito(), (RelativeLayout) getActivity().findViewById(R.id.numerosChanchito));
                 getActivity().findViewById(R.id.chanchito).setVisibility(View.VISIBLE);
-            }
+            }*/
 
             setPremios(boleto.premios());
 
@@ -132,6 +141,27 @@ public class FragmentoResultado extends Fragment {
         ((TextView)getActivity().findViewById(R.id.premios_txt)).setText(sPremio);
     }
 
+    private void setJuego(String nombre, int[] numeros, int[] check, LinearLayout ll)
+    {
+        float proporcion = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
+        RelativeLayout rl2 = new RelativeLayout(getActivity());
+        rl2.setBackgroundResource(R.drawable.verde);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int)(proporcion*50));
+
+        TextView n = new TextView(getActivity());
+        n.setText(nombre);
+        n.setTextSize(proporcion * 15);
+        n.setTextColor(Color.WHITE);
+        n.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        LinearLayout.LayoutParams nParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        nParams.setMargins(0,5,0,0);
+
+        ll.addView(n);
+        ll.addView(rl2);
+
+        setNumeros(numeros,check,rl2);
+    }
+
     private void setNumeros(int[] numeros, int[] check, RelativeLayout rl)
     {
         TextView numero;
@@ -148,7 +178,7 @@ public class FragmentoResultado extends Fragment {
             numero.setText(String.valueOf(numeros[i]));
             idBase++;
             numero.setId(idBase);
-            numero.setTextSize(12*proporcion);
+            numero.setTextSize(15*proporcion);
             params = new RelativeLayout.LayoutParams(width,height);
             if(i != 0)
             {

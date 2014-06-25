@@ -41,81 +41,12 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <RelativeLayout
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/numeros"
-                    android:layout_width="match_parent"
-                    android:background="@drawable/verde"
-                    android:layout_height="70dp"></RelativeLayout>
-
                 <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/kino"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:id="@+id/dinamico"></LinearLayout>
 
-                    <TextView
-                        android:textColor="#ffffffff"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:text="@string/resultadosKino"/>
-
-                    <RelativeLayout
-                        android:id="@+id/numerosKino"
-                        android:layout_width="match_parent"
-                        android:background="@drawable/verde"
-                        android:layout_height="70dp"></RelativeLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/reKino"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:textColor="#ffffffff"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:text="@string/resultadosReKino"/>
-
-                    <RelativeLayout
-                        android:id="@+id/numerosReKino"
-                        android:layout_width="match_parent"
-                        android:background="@drawable/verde"
-                        android:layout_height="70dp"></RelativeLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/chanchito"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:textColor="#ffffffff"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:text="@string/resultadosChanchito"/>
-
-                    <RelativeLayout
-                        android:id="@+id/numerosChanchito"
-                        android:layout_width="match_parent"
-                        android:background="@drawable/verde"
-                        android:layout_height="70dp"></RelativeLayout>
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_marginTop="5dp"
@@ -168,6 +99,7 @@
                 android:visibility="gone"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
+                android:textSize="25dp"
                 android:onClick="comprar"
                 android:background="@drawable/rojo"
                 android:layout_width="match_parent"
