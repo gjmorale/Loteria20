@@ -1,5 +1,7 @@
 package com.loteria20.app;
 
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,11 +27,16 @@ public class Controlador_Lista
     public static String getSeparador2()
     { return separador2; }
 
+    //Instancia de la base de datos
+    static public DatabaseHandler dbHandler;
 
-    //Inicializa el sistema de archivos. Si no hay archivo, retorna false
-    public static boolean start()
-    {
+    //Inicializa el sistema de archivos.
+    public static void start(Context context){
 
+        //Instanciamos la BD
+        dbHandler = new DatabaseHandler(context);
+
+        /*
         boolean ret = false;
         File root = new File(android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/BD");
         if(!root.exists())
@@ -52,9 +59,12 @@ public class Controlador_Lista
         if(getNombres().size() > 0)
             ret = true;
         return ret;
+        */
     }
 
     //Retorna toda la informacion del billete. Importante que el indice parta de cero
+    //Obsoleto
+    /*
     private static String[] getInfoBillete(int posicion)
     {
         String [] arreglo = new String[1];
@@ -76,33 +86,53 @@ public class Controlador_Lista
             return arreglo;
         } else { return null; }
     }
+    */
 
-    public static String getResultado(int posicion)
+    public static String getRespuesta(int id)
     {
-        return getInfoBillete(posicion)[3];
+        return dbHandler.getBillete(id).getRespuesta();
+//        return getInfoBillete(posicion)[3];
     }
 
-    public static String getNombre(int posicion)
+    public static String getNombre(int id)
     {
-        return getInfoBillete(posicion)[0];
+        return dbHandler.getBillete(id).getNombre();
+        //return getInfoBillete(posicion)[0];
     }
 
-    public static String getEstado(int posicion)
+    public static int getEstado(int id)
     {
-        return getInfoBillete(posicion)[2];
+        return dbHandler.getBillete(id).getEstado();
+//        return getInfoBillete(posicion)[2];
     }
 
-    public static String getCodigo(int posicion)
+    public static String getCodigo(int id)
     {
-        return getInfoBillete(posicion)[1];
+        return dbHandler.getBillete(id).getCodigo();
+        //return getInfoBillete(posicion)[1];
     }
 
     //Retorna nombre de elementos a mostrar en la lista del navegador
     //opcionMinima es para asegurar que siempre habrá algo que mostrar en el drawer
-    public static List<String> getNombres()
+    public static List<ElementoSpinner> getNombres()
     {
+        //tratemos de implementarlo con bd
+
         //String line = "";
-        List<String> lines = new ArrayList<String>();
+        List<ElementoSpinner> lines = new ArrayList<ElementoSpinner>();
+
+        //Obtenemos los nombres de la BD
+        List<Billete> todosLosBilletes = dbHandler.getAllBilletes();
+        for(int i=0; i<todosLosBilletes.size();i++ )
+        {
+            int idBillete = todosLosBilletes.get(i).getId();
+            String nombreBillete = todosLosBilletes.get(i).getNombre();
+            lines.add(new ElementoSpinner(idBillete, nombreBillete));
+            //lines.add(todosLosBilletes.get(i).getNombre());
+        }
+
+        return lines;
+
         /*
         String [] arreglo;
         try{
@@ -117,17 +147,11 @@ public class Controlador_Lista
         } catch (FileNotFoundException e) {}
         arreglo = lines.toArray(new String[lines.size()]);
         */
-        //tratemos de implementarlo con bd
 
-        List<Billete> todosLosBilletes = ListaBilletes.dbHandler.getAllBilletes();
-        for(int i=0; i<todosLosBilletes.size();i++ )
-        {
-            lines.add(todosLosBilletes.get(i).getNombre());
-        }
-
-        return lines;
     }
 
+    //Al parecer esto quedaria obsoleto, ya que ahora guardo en la BD
+    /*
     public static boolean setBillete(String nombre, String codigo, String tipo, String resultado)
     {
         try {
@@ -139,12 +163,20 @@ public class Controlador_Lista
             f.close();
         } catch (FileNotFoundException e) { return false;
         } catch (IOException e) { return false;}
+
         return true;
     }
+    */
 
-    /*Igual a borrar pero reescribe el billete index con nombre cambiado*/
+    /*Renombre un billete*/
     public static void renombrar(int index, String nombre)
     {
+        Billete billete = dbHandler.getBillete(index);
+        billete.setNombre(nombre);
+        dbHandler.updateBillete(billete);
+
+        /*
+
         int i = 0;
         String line = "";
         List<String> lines = new ArrayList<String>();
@@ -181,11 +213,20 @@ public class Controlador_Lista
         }
         catch (FileNotFoundException e) { }
         catch (IOException e) { }
+        */
     }
 
-    /*Igual a borrar pero reescribe el billete index con nombre cambiado*/
-    public static void setResultado(int index, String resultado)
+    /*Igual a borrar pero reescribe el billete index con respuesta cambiado*/
+    public static void setResultado(int index, String respuesta)
     {
+        //Ahora con BD
+        Billete billete = dbHandler.getBillete(index);
+        billete.setRespuesta(respuesta);
+        dbHandler.updateBillete(billete);
+
+
+
+        /*
         int i = 0;
         String line = "";
         List<String> lines = new ArrayList<String>();
@@ -221,11 +262,18 @@ public class Controlador_Lista
         }
         catch (FileNotFoundException e) { }
         catch (IOException e) { }
+        */
     }
 
-    /*Igual a borrar pero reescribe el billete index con nombre cambiado*/
-    public static void setEstado(int index, String estado)
+    /*Igual a borrar pero reescribe el billete index con estado cambiado*/
+    public static void setEstado(int index, int estado)
     {
+        //Ahora con BD
+        Billete billete = dbHandler.getBillete(index);
+        billete.setEstado(estado);
+        dbHandler.updateBillete(billete);
+
+        /*
         int i = 0;
         String line = "";
         List<String> lines = new ArrayList<String>();
@@ -261,12 +309,13 @@ public class Controlador_Lista
         }
         catch (FileNotFoundException e) { }
         catch (IOException e) { }
+        */
     }
 
     public static void borrar(int index)
     {
         //ahora con BD
-        ListaBilletes.dbHandler.deleteBillete(ListaBilletes.dbHandler.getBillete(index));
+        dbHandler.deleteBillete(dbHandler.getBillete(index));
 
 
         //con archivos
@@ -306,21 +355,6 @@ public class Controlador_Lista
         */
 
 
-    }
-
-
-    //buscamos en la BD la linea de informacion correspondiente al boleto, y le setiamos el resultado
-    //recibimos el nombre del billete (suponemos unico), y un elemento Boleto, al cual le podremos
-    //pedir los resultados
-    public static void setResultado(String nombre, Boleto boleto)
-    {
-        //obtenemos la linea de texto en el archivo local de la BD
-
-        //modificamos la linea, ingresandole el resultado obtenido del boleto
-
-        //volvemos a guardar la linea de texto en la BD
-
-        //PENDIENTE, VOY A TRATAR DE MOVERME A UNA DB DE VERDAD.
     }
 
 }

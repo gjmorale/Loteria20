@@ -5,17 +5,17 @@ package com.loteria20.app;
  */
 public class Billete {
 
-    private String _nombre, _codigo, _tipo, _respuesta, _estado;
-    private int _id;
+    private String _nombre, _codigo, _tipo, _respuesta;
+    private int _id, _estado;
 
 
-    public Billete (int id, String nombre, String codigo, String tipo, String respuesta, String _estado){
+    public Billete (int id, String nombre, String codigo, String tipo, String respuesta, int estado){
         _id=id;
         _nombre=nombre;
         _codigo=codigo;
         _tipo=tipo;
         _respuesta=respuesta;
-        _estado=_estado;
+        _estado=estado;
     }
 
     public int getId(){return _id;}
@@ -28,5 +28,11 @@ public class Billete {
 
     public String getRespuesta(){return _respuesta;}
 
-    public String getEstado(){return _estado;}
+    public int getEstado(){return _estado;}
+
+    public void setEstado(int estado){_estado=estado;}
+
+    public void setRespuesta(String respuesta){_respuesta=respuesta;}
+
+    public void setNombre(String nombre){_nombre=nombre;}
 }

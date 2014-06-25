@@ -63,7 +63,7 @@ public class FragmentoResultado extends Fragment {
         {
             view.setText("Cargando resultados ...");
             AsyncTask api;
-            if(Integer.parseInt(Controlador_Lista.getEstado(posicion)) < 2)
+            if(Controlador_Lista.getEstado(posicion) < 2)
             {
                 try
                 {
@@ -77,8 +77,8 @@ public class FragmentoResultado extends Fragment {
                     view.setText(e.toString());
                 }
             }
-            Boleto res = new Boleto(Controlador_Lista.getResultado(posicion));
-            String newEstado = String.valueOf(setUpResultado(res));
+            Boleto res = new Boleto(Controlador_Lista.getRespuesta(posicion));
+            int newEstado = setUpResultado(res);
             Controlador_Lista.setEstado(posicion, newEstado);
             view.setText("Resultado:");
         }

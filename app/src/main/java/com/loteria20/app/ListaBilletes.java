@@ -24,8 +24,7 @@ public class ListaBilletes extends ActionBarActivity {
     private int mPos;
     private FragmentoResultado mFragmento;
 
-    //Instancia de la base de datos
-    static public DatabaseHandler dbHandler;
+
 
 
     @Override
@@ -33,8 +32,8 @@ public class ListaBilletes extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_billetes);
 
-        List<String> defecto = new ArrayList<String>();
-        defecto.add("Aún no tiene billetes registrados");
+        List<ElementoSpinner> defecto = new ArrayList<ElementoSpinner>();
+        defecto.add(new ElementoSpinner(-1,"Aún no tiene billetes registrados"));
         setUpSpinner(defecto);
 
         vacio = true;
@@ -50,7 +49,7 @@ public class ListaBilletes extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if(!vacio)
-                    showResult(position);
+                    showResult(getIdSpinner());
                 else
                     showResult(0);
             }
@@ -61,8 +60,8 @@ public class ListaBilletes extends ActionBarActivity {
 
         });
 
-        dbHandler = new DatabaseHandler(getApplicationContext());
-        Controlador_Lista.start();
+
+        Controlador_Lista.start(getApplicationContext());
     }
 
     @Override
@@ -73,14 +72,14 @@ public class ListaBilletes extends ActionBarActivity {
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    private void setUpSpinner(List<String> list)
+    private void setUpSpinner(List<ElementoSpinner> list)
     {
         /*Preparar spinner con opciones de distintos juegos*/
         Spinner spinner1 = (Spinner) findViewById(R.id.lista_billetes);
 
         if(list.size()==0)
         {
-            list.add("Aún no tiene billetes registrados");
+            list.add(new ElementoSpinner(-1,"Aún no tiene billetes registrados"));
             vacio = true;
             mPos = 0;
         }
@@ -93,7 +92,7 @@ public class ListaBilletes extends ActionBarActivity {
             }
         }
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+        ArrayAdapter<ElementoSpinner> dataAdapter = new ArrayAdapter<ElementoSpinner>
                 (this, R.layout.my_spinner_item,list);
 
         dataAdapter.setDropDownViewResource
@@ -151,15 +150,21 @@ public class ListaBilletes extends ActionBarActivity {
         }
 
         if (id == R.id.action_eliminar && !vacio) {
-            confirmarEliminar(((Spinner) findViewById(R.id.lista_billetes)).getSelectedItemPosition());
+            confirmarEliminar(getIdSpinner());
             return true;
         }
 
         if (id == R.id.action_renombrar && !vacio) {
-            inputRenombrar(((Spinner) findViewById(R.id.lista_billetes)).getSelectedItemPosition());
+            inputRenombrar(getIdSpinner());
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private int getIdSpinner(){
+        Spinner spinner = ((Spinner) findViewById(R.id.lista_billetes));
+        ElementoSpinner elementoSpinner = (ElementoSpinner) spinner.getSelectedItem();
+        return  elementoSpinner.getId();
     }
 
     private void inputRenombrar(final int index)
@@ -225,10 +230,10 @@ public class ListaBilletes extends ActionBarActivity {
     public void onResume()
     {
         super.onResume();
-        List<String> list = Controlador_Lista.getNombres();
+        List<ElementoSpinner> list = Controlador_Lista.getNombres();
         setUpSpinner(list);
 
-        showResult(mPos);
+        showResult(getIdSpinner());
 
     }
 

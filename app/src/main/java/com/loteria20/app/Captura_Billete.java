@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 //Clase que maneja la interfaz de input para ingresar un nuevo billete
 public class Captura_Billete extends ActionBarActivity {
@@ -78,12 +79,12 @@ public class Captura_Billete extends ActionBarActivity {
         {
             warning.setText("Nombre de largo inválido");
         }
-        List<String> nombres = Controlador_Lista.getNombres();
+        List<ElementoSpinner> nombres = Controlador_Lista.getNombres();
         if(nombres != null)
         {
             for(int i = 1 ; i<nombres.size() ; i++)
             {
-                if(msg == nombres.get(i))
+                if(msg == nombres.get(i).getNombre())
                 {
                     repetido = true;
                     warning.setText("Nombre ya ha sido utilizado");
@@ -141,8 +142,8 @@ public class Captura_Billete extends ActionBarActivity {
         //Controlador_Lista.setBillete(nombre, codigo, tipo, "resultado pendiente.");
 
         //Guardamos en la BD
-        Billete billete = new Billete(ListaBilletes.dbHandler.getBilletesCount(), nombre, codigo, tipo, "resultado pendiente", "1");
-        ListaBilletes.dbHandler.createBillete(billete);
+        Billete billete = new Billete(Controlador_Lista.dbHandler.getBilletesCount(), nombre, codigo, tipo, "resultado pendiente", 1);
+        Controlador_Lista.dbHandler.createBillete(billete);
 
 
         Toast.makeText(getApplicationContext(),"hola",Toast.LENGTH_LONG).show();

@@ -33,7 +33,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db)
     {
 
-        db.execSQL("CREATE TABLE "+TABLE_BILLETES+"("+KEY_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+KEY_NOMRE+" TEXT,"+KEY_CODIDGO+" TEXT,"+KEY_TIPO+" TEXT,"+KEY_RESPUESTA+" TEXT,"+KEY_ESTADO+" TEXT)");
+        db.execSQL("CREATE TABLE "+TABLE_BILLETES+"("+KEY_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+KEY_NOMRE+" TEXT,"+KEY_CODIDGO+" TEXT,"+KEY_TIPO+" TEXT,"+KEY_RESPUESTA+" TEXT,"+KEY_ESTADO+" INTEGER");
 
     }
 
@@ -60,13 +60,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public Billete getBillete (int id){
+        //if(id>0)
+
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_BILLETES, new String[] { KEY_ID, KEY_NOMRE, KEY_CODIDGO, KEY_TIPO, KEY_RESPUESTA, KEY_ESTADO}, KEY_ID+"=?", new String[]{String.valueOf(id)}, null, null,null,null);
         if(cursor!=null)
             cursor.moveToFirst();
 
-        Billete billete = new Billete(Integer.parseInt(cursor.getString(0)),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5));
+        int id_ = Integer.parseInt(cursor.getString(0));
+        String nombre_ = cursor.getString(1);
+        String codigo_ = cursor.getString(2);
+        String tipo_ = cursor.getString(3);
+        String respuesta_ = cursor.getString(4);
+        int estado_ = cursor.getInt(5);
+
+        Billete billete = new Billete(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
         db.close();
         cursor.close();
         return billete;
@@ -111,7 +120,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             do{
-                Billete billete = new Billete(Integer.parseInt(cursor.getString(0)),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5));
+                Billete billete = new Billete(Integer.parseInt(cursor.getString(0)),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
                 billetes.add(billete);
             }
             while(cursor.moveToNext());
