@@ -81,31 +81,28 @@ public class FragmentoResultado extends Fragment {
         {
             view_lista.removeAllViews();
             setJuego("Numeros del cartón:",boleto.getNumeros(), new int[]{-1},view_lista);
-            if(boleto.kino())
+            if(boleto.kino)
                 setJuego("Aciertos en Kino:",boleto.getNumeros(), boleto.listaKino(),view_lista);
-            if(boleto.reKino())
+            if(boleto.reKino)
                 setJuego("Aciertos en ReKino:",boleto.getNumeros(), boleto.listaReKino(),view_lista);
-            if(boleto.chanchito())
+            if(boleto.chanchito)
                 setJuego("Aciertos en Chanchito Regalón:",boleto.getNumeros(), boleto.listaChanchito(),view_lista);
-            /*setNumeros("Numeros",boleto.getNumeros(),new int[]{-1}, (RelativeLayout)getActivity().findViewById(R.id.numeros));
-
-            if(boleto.kino())
+            if(boleto.ganaMas)
+                setJuego("Aciertos en Gana Más", boleto.getNumeros(), boleto.listaGanaMas(), view_lista);
+            if(boleto.comboMarraqueta)
             {
-                setNumeros("Kino", boleto.getNumeros(), boleto.listaKino(), (RelativeLayout) getActivity().findViewById(R.id.numerosKino));
-                getActivity().findViewById(R.id.kino).setVisibility(View.VISIBLE);
+                for(int i = 0; i<boleto.listasComboMarraqueta().length ; i++)
+                {
+                    setJuego("Combo Marraqueta sorteo n°"+i, boleto.getNumeros(), boleto.listasComboMarraqueta()[i], view_lista);
+                }
             }
-
-            if(boleto.reKino())
+            if(boleto.chaoJefe)
             {
-                setNumeros("ReKino", boleto.getNumeros(), boleto.listaReKino(), (RelativeLayout) getActivity().findViewById(R.id.numerosReKino));
-                getActivity().findViewById(R.id.reKino).setVisibility(View.VISIBLE);
+                for(int i = 0; i<boleto.listasComboMarraqueta().length ; i++)
+                {
+                    setJuego("Chao Jefe sorteo n°"+i, boleto.getNumeros(), boleto.listasChaoJefe()[i], view_lista);
+                }
             }
-
-            if(boleto.chanchito())
-            {
-                setNumeros("Chanchito", boleto.getNumeros(), boleto.listaChanchito(), (RelativeLayout) getActivity().findViewById(R.id.numerosChanchito));
-                getActivity().findViewById(R.id.chanchito).setVisibility(View.VISIBLE);
-            }*/
 
             setPremios(boleto.premios());
 
@@ -146,7 +143,7 @@ public class FragmentoResultado extends Fragment {
         float proporcion = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
         RelativeLayout rl2 = new RelativeLayout(getActivity());
         rl2.setBackgroundResource(R.drawable.verde);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int)(proporcion*50));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int)(proporcion*70));
 
         TextView n = new TextView(getActivity());
         n.setText(nombre);
