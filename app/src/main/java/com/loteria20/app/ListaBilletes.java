@@ -122,6 +122,11 @@ public class ListaBilletes extends ActionBarActivity {
         startActivity(browserIntent);
     }
 
+    public void reload(View v)
+    {
+        mFragmento.setText();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

@@ -25,7 +25,9 @@ public class FragmentoResultado extends Fragment {
     {
         boolean cambio = false;
         if(posicion != p)
+        {
             cambio = true;
+        }
         posicion = p;
         if(cambio)
         {
@@ -78,13 +80,17 @@ public class FragmentoResultado extends Fragment {
             Boleto res = new Boleto(Controlador_Lista.getResultado(posicion));
             String newEstado = String.valueOf(setUpResultado(res));
             Controlador_Lista.setEstado(posicion, newEstado);
-            //view.setText(Controlador_Lista.getResultado(posicion));
-            view.setText("Resultado");
+            view.setText("Resultado:");
         }
     }
 
     private int setUpResultado(Boleto boleto)
     {
+        ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.GONE);
+        ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.GONE);
+        ((Button)getActivity().findViewById(R.id.button_comprar)).setVisibility(View.GONE);
+        ((Button)getActivity().findViewById(R.id.button_recargar)).setVisibility(View.GONE);
+
         LinearLayout view_lista = (LinearLayout)getActivity().findViewById(R.id.dinamico);
         if(boleto.estado() == 2)
         {
@@ -116,16 +122,14 @@ public class FragmentoResultado extends Fragment {
             setPremios(boleto.premios());
 
             ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.VISIBLE);
-            ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.GONE);
             ((Button)getActivity().findViewById(R.id.button_comprar)).setVisibility(View.VISIBLE);
         }
         else
         {
-            ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.GONE);
             ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.VISIBLE);
-            ((Button)getActivity().findViewById(R.id.button_comprar)).setVisibility(View.GONE);
+            ((Button)getActivity().findViewById(R.id.button_recargar)).setVisibility(View.VISIBLE);
 
-            ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuesta() + "\n" + boleto.respuestaOriginal);
+            ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuesta());
         }
         return boleto.estado();
     }
