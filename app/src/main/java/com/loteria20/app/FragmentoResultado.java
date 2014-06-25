@@ -3,6 +3,7 @@ package com.loteria20.app;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -13,13 +14,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.util.concurrent.ExecutionException;
+import android.widget.Toast;
 
 public class FragmentoResultado extends Fragment {
 
     private int posicion;
-    private boolean checked = false;
     private static int idBase = 1234;
 
     public void setPosicion(int p)
@@ -30,7 +29,6 @@ public class FragmentoResultado extends Fragment {
         posicion = p;
         if(cambio)
         {
-            checked = false;
             setText();
         }
 
@@ -61,28 +59,34 @@ public class FragmentoResultado extends Fragment {
         }
         else
         {
-            if(!checked)
+            view.setText("Cargando resultados ...");
+            AsyncTask api;
+            if(Integer.parseInt(Controlador_Lista.getEstado(posicion)) < 2)
             {
                 try
                 {
-                    view.setText("RESULTADOS:");
-                    Boleto res = new APILoteria().execute(Controlador_Lista.getCodigo(posicion)).get();
-                    checked = setUpResultado(res);
-                }catch(InterruptedException e)
-                {
-                    view.setText(e.toString());
-                }catch(ExecutionException e)
+                    api = new APILoteria().execute(Controlador_Lista.getCodigo(posicion));
+                    String resp = (String)api.get();
+                    Controlador_Lista.setResultado(posicion,resp);
+                    Toast.makeText(getActivity(), "Solicitando a Loteria.cl", Toast.LENGTH_LONG).show();
+                }
+                catch(Exception e)
                 {
                     view.setText(e.toString());
                 }
             }
+            Boleto res = new Boleto(Controlador_Lista.getResultado(posicion));
+            String newEstado = String.valueOf(setUpResultado(res));
+            Controlador_Lista.setEstado(posicion, newEstado);
+            //view.setText(Controlador_Lista.getResultado(posicion));
+            view.setText("Resultado");
         }
     }
 
-    private boolean setUpResultado(Boleto boleto)
+    private int setUpResultado(Boleto boleto)
     {
         LinearLayout view_lista = (LinearLayout)getActivity().findViewById(R.id.dinamico);
-        if(boleto.sorteoRealizado())
+        if(boleto.estado() == 2)
         {
             view_lista.removeAllViews();
             setJuego("Numeros del cartón:",boleto.getNumeros(), new int[]{-1},view_lista);
@@ -98,14 +102,14 @@ public class FragmentoResultado extends Fragment {
             {
                 for(int i = 0; i<boleto.listasComboMarraqueta().length ; i++)
                 {
-                    setJuego("Combo Marraqueta sorteo n°"+i, boleto.getNumeros(), boleto.listasComboMarraqueta()[i], view_lista);
+                    setJuego("Combo Marraqueta sorteo n°"+(i+1), boleto.getNumeros(), boleto.listasComboMarraqueta()[i], view_lista);
                 }
             }
             if(boleto.chaoJefe)
             {
                 for(int i = 0; i<boleto.listasChaoJefe().length ; i++)
                 {
-                    setJuego("Chao Jefe sorteo n°"+i, boleto.getNumeros(), boleto.listasChaoJefe()[i], view_lista);
+                    setJuego("Chao Jefe sorteo n°"+(i+1), boleto.getNumeros(), boleto.listasChaoJefe()[i], view_lista);
                 }
             }
 
@@ -114,17 +118,16 @@ public class FragmentoResultado extends Fragment {
             ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.VISIBLE);
             ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.GONE);
             ((Button)getActivity().findViewById(R.id.button_comprar)).setVisibility(View.VISIBLE);
-
-            return true;
         }
         else
         {
             ((LinearLayout)getActivity().findViewById(R.id.resultado)).setVisibility(View.GONE);
             ((TextView)getActivity().findViewById(R.id.anuncio)).setVisibility(View.VISIBLE);
             ((Button)getActivity().findViewById(R.id.button_comprar)).setVisibility(View.GONE);
-            ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuesta());
-            return false;
+
+            ((TextView)getActivity().findViewById(R.id.anuncio)).setText(boleto.respuesta() + "\n" + boleto.respuestaOriginal);
         }
+        return boleto.estado();
     }
 
     private void setPremios(int[] montos)

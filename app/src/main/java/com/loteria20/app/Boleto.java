@@ -18,11 +18,12 @@ public class Boleto
     public boolean chaoJefe = false;
     public boolean comboMarraqueta = false;
     private int[] montos = new int[6];
-    private boolean hayResultados = false;
     private String fechaSorteo = "";
     public String respuestaOriginal;
     private String respuestaOut;
     public String respuesta(){return respuestaOut;}
+    private int _estado = 0;
+    public int estado(){return _estado;}
 
 
 
@@ -30,10 +31,17 @@ public class Boleto
     public Boleto(String result)
     {
         respuestaOriginal = result;
+        if(respuestaOriginal.equals("resultado pendiente."))
+        {
+            respuestaOut = "Resultado de sorteo aún pendiente.";
+            _estado = 1;
+            return;
+        }
+
         if(result.length() <= 3 || !result.contains("&"))
         {
             respuestaOut = "Error de conección";
-            hayResultados = false;
+            _estado = 0;
             return;
         }
         String[] splitten = result.substring(1, result.length()-2).split("&");
@@ -45,7 +53,7 @@ public class Boleto
         }
 
         if(ht.get("respuesta").equals("1")){
-            hayResultados = true;
+            _estado = 2;
 
             fechaSorteo = ht.get("Fecha");
 
@@ -103,17 +111,25 @@ public class Boleto
         }
         else if(ht.get("respuesta").equals("4"))
         {
+            _estado = 3;
             respuestaOut = "Código del billete ingresado no es válido.";
         }
         else if(ht.get("respuesta").equals("2"))
         {
             if(ht.get("mensaje").contains("prescrito"))
+            {
+                _estado = 4;
                 respuestaOut = "Sorteo se realizó hace más de 60 días.";
+            }
             else
+            {
+                _estado = 1;
                 respuestaOut = "Sorteo aún no se ha realizado.";
+            }
         }
         else
         {
+            _estado = 0;
             respuestaOut = "Error: " + respuestaOriginal;
         }
 
@@ -128,7 +144,7 @@ public class Boleto
     {return fechaSorteo;}
 
     public boolean sorteoRealizado()
-    {return hayResultados;}
+    {return _estado == 2;}
 
     public int chanchitoRegalonNumeroAciertos()
     {return coincidenciasChanchito.length;}

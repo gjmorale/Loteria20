@@ -134,7 +134,7 @@ public class Captura_Billete extends ActionBarActivity {
         EditText et = (EditText)findViewById(R.id.nombre);
         String nombre = et.getText().toString();
         Spinner sp = (Spinner)findViewById(R.id.spinner1);
-        String tipo = sp.getSelectedItem().toString();
+        String tipo = String.valueOf(1);
         TextView tv = (TextView)findViewById(R.id.codigo_billete);
         String codigo = tv.getText().toString();
         Controlador_Lista.setBillete(nombre, codigo, tipo, "resultado pendiente.");
