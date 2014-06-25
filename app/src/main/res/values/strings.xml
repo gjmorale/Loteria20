@@ -30,5 +30,6 @@
     <string name="resultadosChanchito">Resultados Chanchito</string>
     <string name="premios_txt">Premios</string>
     <string name="button_comprar">Comprar nuevo billete</string>
+    <string name="button_recargar">Volver a cargar resultados</string>
 
 </resources>

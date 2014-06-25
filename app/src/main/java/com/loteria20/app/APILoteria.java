@@ -13,35 +13,16 @@ import java.net.URL;
  * Created by Eduardo on 28-05-14.
  */
 
-public class APILoteria extends AsyncTask<String, Integer, Boleto> {
+public class APILoteria extends AsyncTask<String, Integer, String> {
 
     @Override
-    protected Boleto doInBackground(String... params) {
+    protected String doInBackground(String... params) {
         // TODO Auto-generated method stub
-        return new Boleto(getData(params[0]));
+        return getData(params[0]);
 
     }
 
     protected void onPostExecute(String result) {
-        /*String[] splitten = result.substring(1, result.length()-2).split("&");
-        Hashtable<String, String> hasheado = new Hashtable<String, String>();
-        for (String s: splitten){
-            String[] a = s.split("=");
-            hasheado.put(a[0], a[1]);
-        }
-        if(hasheado.get("respuesta").equals("1")){
-            System.out.println("hay resultados");
-            System.out.println("Los numeros son:");
-            for (String s: hasheado.get("BolKino1").split(",")){
-                System.out.println(s);
-            }
-        }else{
-            System.out.println("No hay resultados aun");
-        }
-    }
-
-    protected void onProgressUpdate(Integer... progress) {
-*/
     }
 
 

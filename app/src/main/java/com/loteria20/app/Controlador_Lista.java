@@ -87,7 +87,7 @@ public class Controlador_Lista
         return getInfoBillete(posicion)[0];
     }
 
-    public static String getTipo(int posicion)
+    public static String getEstado(int posicion)
     {
         return getInfoBillete(posicion)[2];
     }
@@ -198,6 +198,46 @@ public class Controlador_Lista
                     {
                         String[] temp = line.split(separador);
                         temp[3] = resultado;
+                        line = temp[0]+separador+temp[1]+separador+temp[2]+separador+temp[3];
+                    }
+                    lines.add(line);
+                    i++;
+                }
+                br.close();
+            }
+            catch(IOException ioe) { }
+        }
+        catch (FileNotFoundException e) { }
+
+        try
+        {
+            FileOutputStream f = new FileOutputStream(BD,false);
+            PrintWriter pw = new PrintWriter(f);
+            for(int j = 0; j < lines.size() ; j++)
+                pw.println(lines.get(j));
+            pw.flush();
+            pw.close();
+            f.close();
+        }
+        catch (FileNotFoundException e) { }
+        catch (IOException e) { }
+    }
+
+    /*Igual a borrar pero reescribe el billete index con nombre cambiado*/
+    public static void setEstado(int index, String estado)
+    {
+        int i = 0;
+        String line = "";
+        List<String> lines = new ArrayList<String>();
+        try{
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(BD)));
+            try{
+                while((line = br.readLine()) != null)
+                {
+                    if(i==index)
+                    {
+                        String[] temp = line.split(separador);
+                        temp[2] = estado;
                         line = temp[0]+separador+temp[1]+separador+temp[2]+separador+temp[3];
                     }
                     lines.add(line);
