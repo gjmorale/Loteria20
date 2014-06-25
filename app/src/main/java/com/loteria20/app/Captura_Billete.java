@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,9 +138,18 @@ public class Captura_Billete extends ActionBarActivity {
         String tipo = sp.getSelectedItem().toString();
         TextView tv = (TextView)findViewById(R.id.codigo_billete);
         String codigo = tv.getText().toString();
-        Controlador_Lista.setBillete(nombre, codigo, tipo, "resultado pendiente.");
+        //Controlador_Lista.setBillete(nombre, codigo, tipo, "resultado pendiente.");
+
+        //Guardamos en la BD
+        Billete billete = new Billete(ListaBilletes.dbHandler.getBilletesCount(), nombre, codigo, tipo, "resultado pendiente", "1");
+        ListaBilletes.dbHandler.createBillete(billete);
+
+
+        Toast.makeText(getApplicationContext(),"hola",Toast.LENGTH_LONG).show();
+
         this.finish();
     }
+
 
     //Se inicia la camara para tomar foto del billete
     public void tomarFoto(View v)

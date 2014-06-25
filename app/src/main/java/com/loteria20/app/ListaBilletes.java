@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +23,10 @@ public class ListaBilletes extends ActionBarActivity {
     private boolean vacio;
     private int mPos;
     private FragmentoResultado mFragmento;
+
+    //Instancia de la base de datos
+    static public DatabaseHandler dbHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,7 @@ public class ListaBilletes extends ActionBarActivity {
 
         });
 
+        dbHandler = new DatabaseHandler(getApplicationContext());
         Controlador_Lista.start();
     }
 

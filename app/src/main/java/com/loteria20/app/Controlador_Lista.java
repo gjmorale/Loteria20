@@ -25,9 +25,11 @@ public class Controlador_Lista
     public static String getSeparador2()
     { return separador2; }
 
+
     //Inicializa el sistema de archivos. Si no hay archivo, retorna false
     public static boolean start()
     {
+
         boolean ret = false;
         File root = new File(android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/BD");
         if(!root.exists())
@@ -42,6 +44,7 @@ public class Controlador_Lista
             pw.flush();
             pw.close();
             f.close();
+
         } catch (FileNotFoundException e) {
         } catch (IOException e) { }
 
@@ -98,8 +101,9 @@ public class Controlador_Lista
     //opcionMinima es para asegurar que siempre habrá algo que mostrar en el drawer
     public static List<String> getNombres()
     {
-        String line = "";
+        //String line = "";
         List<String> lines = new ArrayList<String>();
+        /*
         String [] arreglo;
         try{
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(BD)));
@@ -112,6 +116,15 @@ public class Controlador_Lista
             } catch(IOException ioe) {}
         } catch (FileNotFoundException e) {}
         arreglo = lines.toArray(new String[lines.size()]);
+        */
+        //tratemos de implementarlo con bd
+
+        List<Billete> todosLosBilletes = ListaBilletes.dbHandler.getAllBilletes();
+        for(int i=0; i<todosLosBilletes.size();i++ )
+        {
+            lines.add(todosLosBilletes.get(i).getNombre());
+        }
+
         return lines;
     }
 
@@ -212,6 +225,12 @@ public class Controlador_Lista
 
     public static void borrar(int index)
     {
+        //ahora con BD
+        ListaBilletes.dbHandler.deleteBillete(ListaBilletes.dbHandler.getBillete(index));
+
+
+        //con archivos
+        /*
         int i = 0;
         String line = "";
         List<String> lines = new ArrayList<String>();
@@ -243,6 +262,10 @@ public class Controlador_Lista
         }
         catch (FileNotFoundException e) { }
         catch (IOException e) { }
+
+        */
+
+
     }
 
 
