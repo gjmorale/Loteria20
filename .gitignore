@@ -2,7 +2,7 @@
 /local.properties
 /.idea/workspace.xml
 .DS_Store
-.idea
+.idea/
 .build/
 sdcard.sd
 sdcard.sd.lock
