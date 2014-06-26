@@ -6,3 +6,7 @@
 .build/
 sdcard.sd
 sdcard.sd.lock
+Loteria20.iml
+app/app.iml
+build.grandle
+gradle/

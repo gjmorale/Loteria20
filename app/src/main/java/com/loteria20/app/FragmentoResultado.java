@@ -58,9 +58,11 @@ public class FragmentoResultado extends Fragment {
         if(posicion == -1)
         {
             view.setText("Ingrese un billete para ver su resultado.\n Utilice el icono de la cámara\npara registrar un nuevo billete");
+            getActivity().findViewById(R.id.lista_resultados).setVisibility(View.GONE);
         }
         else
         {
+            getActivity().findViewById(R.id.lista_resultados).setVisibility(View.VISIBLE);
             view.setText("Cargando resultados ...");
             AsyncTask api;
             if(Controlador_Lista.getEstado(posicion) < 2)

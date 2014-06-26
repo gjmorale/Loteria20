@@ -146,7 +146,6 @@ public class Captura_Billete extends ActionBarActivity {
         Controlador_Lista.dbHandler.createBillete(billete);
 
 
-        Toast.makeText(getApplicationContext(),"hola",Toast.LENGTH_LONG).show();
 
         this.finish();
     }

@@ -49,7 +49,7 @@ public class ListaBilletes extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if(!vacio)
-                    showResult(getIdSpinner());
+                    showResult(position);
                 else
                     showResult(0);
             }
@@ -108,7 +108,7 @@ public class ListaBilletes extends ActionBarActivity {
     {
         mPos = posicion;
         if(!vacio)
-            mFragmento.setPosicion(posicion);
+            mFragmento.setPosicion(getIdSpinner());
         else
             mFragmento.setPosicion(-1);
     }
@@ -233,7 +233,7 @@ public class ListaBilletes extends ActionBarActivity {
         List<ElementoSpinner> list = Controlador_Lista.getNombres();
         setUpSpinner(list);
 
-        showResult(getIdSpinner());
+        showResult(mPos);
 
     }
 
